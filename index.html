@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Passkey System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #2D3E50, #2D3E50);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #2D3E50;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      width: 350px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 25px;
+      letter-spacing: 1px;
+      color: #ffab40;
+    }
+
+    .caption {
+      font-size: 14px;
+      color: #ffd180;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 25px;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      height: 50px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 18px;
+      text-align: center;
+      outline: none;
+      margin-left: -11px;
+    }
+
+    input[type="password"]::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    button {
+      background: #ffab40;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      color: #4a148c;
+      font-weight: bold;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button span {
+      display: inline-block;
+      transition: opacity 0.3s ease;
+    }
+
+    button.loading span {
+      opacity: 0;
+    }
+
+    button.loading::after {
+      content: "Loading...";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 18px;
+    }
+
+    button:hover {
+      background: #ff9100;
+      transform: scale(1.05);
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>SECRET PASSKEY</h1>
+    <div class="caption">Please provide your unique passkey to proceed</div>
+    <div class="input-group">
+      <input type="password" id="passkey" placeholder="Enter passkey">
+    </div>
+    <button id="unlockButton" onclick="validatePasskey()">
+      <span><i class="fa-duotone fa-solid fa-lock"></i> Unlock</span>
+    </button>
+    <div id="message" class="message"></div>
+  </div>
+
+  <script>
+    const sheetId = "1bs__Uazie681I3OCk11dY6pJfV4TOE0Cp-tjG1WnAxQ";
+    const apiKey = "AIzaSyAEioQJ6CuTPPH6YzcYOYuWT6GO-kboJQU";
+    const range = "A:A";
+
+    // Function to fetch passkeys from Google Sheets
+    async function fetchPasskeys() {
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.values) {
+          return data.values.flat();
+        } else {
+          return [];
+        }
+      } catch (error) {
+        console.error("Error fetching passkeys:", error);
+        return [];
+      }
+    }
+
+    // Function to validate the passkey entered by the user
+    async function validatePasskey() {
+      const input = document.getElementById("passkey").value;
+      const message = document.getElementById("message");
+      const button = document.getElementById("unlockButton");
+
+      // Check if the input is empty
+      if (!input) {
+        message.style.color = "#ff0000";
+        message.textContent = "Please enter a passkey.";
+        return;
+      }
+
+      // Add loading effect to the button
+      button.classList.add("loading");
+
+      const passkeys = await fetchPasskeys();
+      setTimeout(async () => {
+        if (passkeys.includes(input)) {
+          message.style.color = "#00ff00";
+          message.textContent = "Access Granted! Redirecting...";
+          setTimeout(() => {
+            window.location.href = "payment.html";
+          }, 2000);
+        } else {
+          message.style.color = "#ff0000";
+          message.textContent = "Invalid Passkey! Try Again.";
+          button.classList.remove("loading");
+        }
+      }, 500); // Delay added to show loading
+    }
+  </script>
+</body>
+</html>
