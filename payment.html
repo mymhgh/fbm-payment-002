@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> FBM Payment Request Form</title>
+    <link rel="stylesheet" href="payment.css">
+</head>
+
+<body>
+    <!-- Form Container Section -->
+    <div class="form-container">
+        <h2>পেমেন্ট রিকোয়েস্ট ফর্ম</h2>
+        
+        <!-- Start of the payment form -->
+        <form id="paymentForm">
+            <!-- Row for Chat ID and Account Type -->
+            <div class="row">
+                <!-- Chat ID Field -->
+                <div class="field">
+                    <label for="chatId">Chat ID:</label>
+                    <input type="text" id="chatId" name="chatId" placeholder="Enter Chat ID" pattern="\d{9,11}" maxlength="11" required> 
+                    <!-- Added validation pattern for chat ID, length restriction to 10 digits -->
+                </div>
+
+                <!-- Account Type Dropdown -->
+                <div class="field">
+                    <label for="accountType">Account Type:</label>
+                    <select id="accountType" name="accountType" required>
+                        <option disabled selected>---Select---</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="gmail">Gmail</option>
+                        <option value="instagram">Instagram</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Row for Friend Type, Mail Type, and Account Date -->
+            <div class="row">
+                <!-- Friend Type Dropdown -->
+                <div class="field">
+                    <label for="friendType">Friend Type:</label>
+                    <select id="friendType" name="friendType" required>
+                        <option disabled selected>---Select---</option>
+                        <option value="0+">0+</option>
+                        <option value="30+">30+</option>
+                    </select>
+                </div>
+                
+                <!-- Mail Type Dropdown -->
+                <div class="field">
+                    <label for="tofaCook">2FA-Cook:</label>
+                    <select id="tofaCook" name="2fa-Cook" required>
+                        <option disabled selected>---Select---</option>
+                        <option value="2FA">2FA</option>
+                        <option value="Cookies">Cookies</option>
+                    </select>
+                </div>
+                
+                <!-- Account Date Picker -->
+                <div class="field">
+                    <label for="accountDate">Work Date:</label>
+                    <input type="date" id="accountDate" name="accountDate" required>
+                </div>
+            </div>
+
+            <!-- Payment Method Section -->
+            <label for="paymentMethod">Payment Method:</label>
+            <select id="paymentMethod" name="paymentMethod" required>
+                <option disabled selected>---Select---</option>
+                <option disabled value="Bkash">Bkash</option>
+                <option disabled value="Nagad">Nagad</option>
+                <option value="Rocket">Rocket</option>
+                <option value="Binance">Binance</option>
+                <option disabled value="Payeer">Payeer</option>
+           <!--  <option value="Rocket">Rocket</option> -->
+            </select>
+
+            <!-- Payment Number Section -->
+            <label for="paymentNumber">Payment Number:</label>
+            <input type="text" id="paymentNumber" name="paymentNumber" placeholder="xxxxxxxxxxx" pattern="01[0-9]{9}" maxlength="12" required>
+            <!-- Added phone number validation pattern to match Bangladesh number format -->
+            
+            <!-- Submit Button -->
+            <button type="submit" id="confirmButton">Confirm</button>
+        </form>
+    </div>
+
+    <!-- Popup Message on Successful Submission -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <p>পেমেন্ট রিকুয়েস্ট সফলভাবে জমা হয়েছে!</p>
+            <!-- Popup message displayed after form submission -->
+            <button onclick="closePopup()">OK Thanks 🎉</button>
+            <!-- Button to close the popup -->
+        </div>
+    </div>
+
+    <!-- JavaScript to Handle Form Submission and Popup -->
+    <script src="payment.js"></script>
+</body>
+
+</html>
