@@ -1,178 +1,371 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Passkey System</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #2D3E50, #2D3E50);
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>পেমেন্ট এক্সেস কন্ট্রোল</title>
 
-    .container {
-      background: #2D3E50;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
-      text-align: center;
-      width: 350px;
-    }
-
-    h1 {
-      font-size: 26px;
-      margin-bottom: 25px;
-      letter-spacing: 1px;
-      color: #ffab40;
-    }
-
-    .caption {
-      font-size: 14px;
-      color: #ffd180;
-      margin-bottom: 20px;
-    }
-
-    .input-group {
-      margin-bottom: 25px;
-    }
-
-    input[type="password"] {
-      width: 100%;
-      height: 50px;
-      padding: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      font-size: 18px;
-      text-align: center;
-      outline: none;
-      margin-left: -11px;
-    }
-
-    input[type="password"]::placeholder {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    button {
-      background: #ffab40;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 10px;
-      font-size: 18px;
-      cursor: pointer;
-      color: #4a148c;
-      font-weight: bold;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-
-    button span {
-      display: inline-block;
-      transition: opacity 0.3s ease;
-    }
-
-    button.loading span {
-      opacity: 0;
-    }
-
-    button.loading::after {
-      content: "Loading...";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #fff;
-      font-size: 18px;
-    }
-
-    button:hover {
-      background: #ff9100;
-      transform: scale(1.05);
-    }
-
-    .message {
-      margin-top: 20px;
-      font-size: 16px;
-    }
-  </style>
 </head>
+
+<style>
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', 'Nirmala UI', sans-serif;
+}
+
+body {
+    background-color: #2D3E50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    margin-bottom: 2rem;
+}
+
+.logo {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+}
+
+.password-group {
+    position: relative;
+    margin: 1.5rem 0;
+}
+
+.lock-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    color: #7f8c8d;
+}
+
+.password-input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    font-size: 1.1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.password-input:focus {
+    border-color: #ffab40;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+
+.keyboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 1.5rem 0;
+}
+
+.key {
+    padding: 15px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    background: #f1f1f1;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.key:hover {
+    background: #e0e0e0;
+}
+
+.special {
+    background: #7f8c8d;
+    color: white;
+}
+
+.special:hover {
+    background: #ffab40;
+}
+
+.unlock-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.unlock-btn:hover {
+    background: #ffab40;
+}
+
+/*.error-msg {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    height: 20px;
+}*/
+.error {
+  color: #e74c3c;
+}
+.success {
+  color: green;
+}
+
+
+
+/* মডেল স্টাইলিং */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    animation: modalopen 0.4s ease-out;
+    text-align: center;
+}
+
+@keyframes modalopen {
+    from {opacity: 0; transform: translateY(-50px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+.modal-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    width: 100%;
+    transition: all 0.3s;
+}
+
+.modal-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+  
+</style>
 <body>
-  <div class="container">
-    <h1>SECRET PASSKEY</h1>
-    <div class="caption">Please provide your unique passkey to proceed</div>
-    <div class="input-group">
-      <input type="password" id="passkey" placeholder="Enter passkey">
+  
+      <!-- মডেল পপআপ -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+    <!--       <span class="close-modal">&times;</span>-->
+            <h2 id="modal-title"></h2>
+            <p id="modal-message"></p>
+            <button id="modal-ok" class="modal-btn close-modal">ঠিক আছে</button>
+        </div>
     </div>
-    <button id="unlockButton" onclick="validatePasskey()">
-      <span><i class="fa-duotone fa-solid fa-lock"></i> Unlock</span>
-    </button>
-    <div id="message" class="message"></div>
-  </div>
 
-  <script>
-    const sheetId = "15voIWEha4Er8wAsEf61IpgkAMQSSUayfE-CH1xC8aTs";
-    const apiKey = "AIzaSyAEioQJ6CuTPPH6YzcYOYuWT6GO-kboJQU";
-    const range = "A:A";
+<!--    <div class="container">-->
+  
+  
+  
+  
+    <div class="container">
+        <header>
+            <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4CAF50">
+                <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm0 11.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11V16z"/>
+            </svg>
+            <h1>পেমেন্ট এক্সেস কন্ট্রোল</h1>
+            <p>সঠিক পাসওয়ার্ড দিন</p>
+        </header>
 
-    // Function to fetch passkeys from Google Sheets
-    async function fetchPasskeys() {
-      const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        if (data.values) {
-          return data.values.flat();
-        } else {
-          return [];
-        }
-      } catch (error) {
-        console.error("Error fetching passkeys:", error);
-        return [];
-      }
+        <div class="password-group">
+            <svg class="lock-icon" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
+            </svg>
+            <input id="passwordInput" class="password-input" type="password" placeholder="পাসওয়ার্ড দিন!" maxlength="6" inputmode="numeric">
+        </div>
+
+<div class="keyboard">
+    <button class="key">1</button>
+    <button class="key">2</button>
+    <button class="key">3</button>
+    <button class="key">4</button>
+    <button class="key">5</button>
+    <button class="key">6</button>
+    <button class="key">7</button>
+    <button class="key">8</button>
+    <button class="key">9</button>
+        <button id="backspace" class="key special">⌫</button> <!-- 7 এর নিচে -->
+    <button class="key">0</button> <!-- 8 এর নিচে -->
+    <button id="enterKey" class="key special">Enter</button> <!-- 9 এর নিচে -->
+</div>
+
+        <button id="unlockBtn" class="unlock-btn">নিশ্চিত করুন</button>
+        <p id="errorMsg" class="error-msg"></p>
+    </div>
+    
+    </div>
+
+    <script>
+    
+    // গুগল শিট থেকে ডেমো ডাটা
+const sheetId = "15voIWEha4Er8wAsEf61IpgkAMQSSUayfE-CH1xC8aTs";
+const apiKey = "AIzaSyAEioQJ6CuTPPH6YzcYOYuWT6GO-kboJQU";
+const range = "A:A";
+
+// DOM এলিমেন্টস
+const passwordInput = document.getElementById("passwordInput");
+const unlockBtn = document.getElementById("unlockBtn");
+const errorMsg = document.getElementById("errorMsg");
+const keys = document.querySelectorAll(".key:not(.special)");
+const backspaceBtn = document.getElementById("backspace");
+const enterKey = document.getElementById("enterKey");
+
+// মডেল এলিমেন্টস
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modal-title");
+const modalMessage = document.getElementById("modal-message");
+const modalOk = document.getElementById("modal-ok");
+const closeModal = document.querySelector(".close-modal");
+
+// পাসওয়ার্ড ভেরিফিকেশন
+let validPasswords = [];
+
+// Function to fetch passkeys from Google Sheets
+async function fetchPasskeys() {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (data.values) {
+      validPasswords = data.values.flat();
+    } else {
+      validPasswords = [];
     }
+  } catch (error) {
+    console.error("Error fetching passkeys:", error);
+    validPasswords = [];
+  }
+}
 
-    // Function to validate the passkey entered by the user
-    async function validatePasskey() {
-      const input = document.getElementById("passkey").value;
-      const message = document.getElementById("message");
-      const button = document.getElementById("unlockButton");
+// পেজ লোড হলে ডাটা ফেচ করুন
+document.addEventListener('DOMContentLoaded', fetchPasskeys);
 
-      // Check if the input is empty
-      if (!input) {
-        message.style.color = "#ff0000";
-        message.textContent = "Please enter a passkey.";
+// কিবোর্ড ইভেন্ট হ্যান্ডলার (শুধু সংখ্যার বাটন)
+keys.forEach(key => {
+    key.addEventListener("click", () => {
+        if (passwordInput.value.length < 6) {
+            passwordInput.value += key.textContent;
+        }
+    });
+});
+
+// ব্যাকস্পেস বাটন
+backspaceBtn.addEventListener("click", () => {
+    passwordInput.value = passwordInput.value.slice(0, -1);
+});
+
+// এন্টার বাটন এবং আনলক বাটন
+enterKey.addEventListener("click", validatePassword);
+unlockBtn.addEventListener("click", validatePassword);
+
+// এরর মেসেজ শো করার ফাংশন
+function showError(message) {
+    errorMsg.textContent = message;
+    setTimeout(() => {
+        errorMsg.textContent = "";
+    }, 3000);
+}
+
+// মডেল ফাংশনালিটি
+function showModal(title, message, isSuccess) {
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    modalTitle.className = isSuccess ? "success" : "error";
+    modal.style.display = "block";
+}
+
+function hideModal() {
+    modal.style.display = "none";
+}
+
+// মডেল ইভেন্ট লিসেনার
+closeModal.onclick = hideModal;
+modalOk.onclick = hideModal;
+window.onclick = function(event) {
+    if (event.target == modal) {
+        hideModal();
+    }
+}
+
+// ভ্যালিডেশন ফাংশন (আপডেটেড)
+function validatePassword() {
+    const password = passwordInput.value;
+    
+    // ইনপুট ক্লিয়ার
+    passwordInput.value = "";
+    
+    if (password.length < 4 || password.length > 6) {
+        showModal("ত্রুটি!", "আরে গাধা আগে পাসওয়ার্ড দে! এর পর নিশ্চিত কর 🤬", false);
         return;
-      }
-
-      // Add loading effect to the button
-      button.classList.add("loading");
-
-      const passkeys = await fetchPasskeys();
-      setTimeout(async () => {
-        if (passkeys.includes(input)) {
-          message.style.color = "#00ff00";
-          message.textContent = "Access Granted! Redirecting...";
-          setTimeout(() => {
-            window.location.href = "payment.html";
-          }, 2000);
-        } else {
-          message.style.color = "#ff0000";
-          message.textContent = "Invalid Passkey! Try Again.";
-          button.classList.remove("loading");
-        }
-      }, 500); // Delay added to show loading
     }
-  </script>
+
+    // ডাটা লোড হয়েছে কিনা চেক করুন
+    if (validPasswords.length === 0) {
+        showModal("ত্রুটি!", "পাসওয়ার্ড ডাটা লোড হয়নি, দয়া করে আবার চেষ্টা করুন", false);
+        return;
+    }
+
+    if (validPasswords.includes(password)) {
+        showModal("সফল!", "পাসওয়ার্ড সঠিক! অপেক্ষা করুন...", true);
+        // 3 সেকেন্ড পর রিডাইরেক্ট
+        setTimeout(() => {
+            window.location.href = "payment.html";
+        }, 1000);
+    } else {
+        showModal("ত্রুটি!", "পাসওয়ার্ড ভুল! আবার চেষ্টা করুন", false);
+    }
+}
+    
+    </script>
 </body>
 </html>
