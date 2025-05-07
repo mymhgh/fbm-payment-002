@@ -194,7 +194,7 @@ function handleFormSubmission() {
                 // একক পেমেন্ট মেথডের ক্ষেত্রে আগের মতো
                 else {
                     const primaryMethod = savedPayments[0].method.toLowerCase();
-                    let successPage = "payment-request-page/success.html";
+                    let successPage = "success.html";
                     
                     if (primaryMethod.includes("bkash")) successPage = "payment-request-page/bkash.html";
                     else if (primaryMethod.includes("binance")) successPage = "payment-request-page/binance.html";
