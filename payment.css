@@ -1,117 +1,304 @@
+/* Mobile-First CSS with Updated Payment Method Section */
+:root {
+  --primary-color: #4361ee;
+  --secondary-color: #3f37c9;
+  --accent-color: #4cc9f0;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --success-color: #4bb543;
+  --error-color: #f44336;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(120deg, #e0f7fa, #ffffff);
+/*  background-color: #f5f7fa;
+  color: var(--dark-color);*/
+  line-height: 1.5;
+/*  padding: 5px;
+  min-height: 100vh;*/
+  
+      font-family: 'Arial', sans-serif;
+    background: linear-gradient(120deg, #c3cfe2, #c3cfe2);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
+    margin: 2px;
 }
 
+/* Form Container */
 .form-container {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    width: 100%;
-    max-width: 550px;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  width: 100%;
+  max-width: 550px;
+  margin: 10px;
+  
 }
 
-h2 {
-    text-align: center;
-    color: #27AE60;
-    margin-bottom: 20px;
-    font-size: 24px;
-    letter-spacing: 1px;
+.form-container h2 {
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
 }
 
-label {
-    display: block;
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 5px;
-    font-weight: bold;
+/* Form Elements - Mobile Layout */
+#paymentForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
+/* User ID & Account Type - Side by Side */
+.row:nth-child(1) {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-input:focus, select:focus {
-    border-color: #27AE60;
-    outline: none;
-    box-shadow: 0 0 5px rgba(39, 174, 96, 0.5);
-}
-
-.row {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
+/* Friend Type, 2FA-Cook & Work Date - Side by Side */
+.row:nth-child(2) {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .field {
-    flex: 1;
+  flex: 1;
+  min-width: calc(50% - 10px);
 }
 
+.row:nth-child(2) .field {
+  min-width: calc(33.33% - 10px);
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dark-color);
+}
+
+input, select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  background-color: #f8f9fa;
+}
+
+/* Updated Payment Method Section */
+.payment-method-container {
+  margin-top: 10px;
+}
+
+.payment-input-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+/* Smaller Select Box */
+.payment-input-group select {
+  flex: 0 0 80px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+/* Larger Number Input */
+.payment-input-group input {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+/* Icon-sized Add Button */
+#addPaymentBtn {
+  flex: 0 0 40px;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 17%;
+  font-size: 40px;
+  background-color: var(--accent-color);
+}
+
+#addPaymentBtn:hover {
+  background-color: #3aa8d1;
+}
+
+#addPaymentBtn::before {
+/*  content: "+";*/
+  margin-top: -2px;
+}
+
+.saved-payments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.payment-method {
+  background-color: var(--light-color);
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  padding: 6px 12px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.payment-method span {
+  cursor: pointer;
+  color: var(--error-color);
+  font-weight: bold;
+}
+
+/* Buttons */
 button {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    background-color: #27AE60;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
 button:hover {
-    background-color: #1f8b50;
+  opacity: 0.9;
 }
 
-.popup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    justify-content: center;
-    align-items: center;
+#confirmButton {
+  width: 100%;
+  margin-top: 5px;
+  background-color: var(--success-color);
 }
 
-.popup-content {
-    background: #fff;
-    padding: 20px 30px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+/* Desktop Styles (Optional) */
+@media (min-width: 768px) {
+  .form-container {
+    padding: 25px;
+    max-width: 600px;
+  }
+  
+  .form-container h2 {
+    font-size: 26px;
+  }
+  
+  input, select {
+    padding: 12px 14px;
+    font-size: 15px;
+  }
+  
+  label {
+    font-size: 15px;
+  }
+  
+  .payment-method {
+    font-size: 13px;
+    padding: 7px 14px;
+  }
 }
 
-.popup-content p {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 20px;
+
+
+/* মিনি অ্যালার্ট স্টাইল */
+.mini-alert-popup {
+    font-size: 13px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
 }
 
-.popup-content button {
-    background-color: #27AE60;
-    color: #fff;
-    padding: 10px 20px;
+.mini-alert-title {
+    font-size: 14px !important;
+    margin-bottom: 5px !important;
+}
+
+.mini-alert-icon {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 14px !important;
+}
+
+.swal2-timer-progress-bar {
+    height: 2px !important;
+}
+
+
+/* ডিলিট বাটন স্টাইল */
+.delete-btn {
+    background-color: #ff4444;
+    color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.popup-content button:hover {
-    background-color: #1f8b50;
+.delete-btn:hover {
+    background-color: #cc0000;
+    transform: scale(1.1);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
+
+.delete-btn:active {
+    transform: scale(0.95);
+}
+
+/* সেভড আইটেম স্টাইল */
+.saved-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    margin: 0px 0;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.saved-item:hover {
+    background-color: #e9ecef;
+    transform: translateX(2px);
+}
+
+.saved-item span {
+    font-size: 14px;
+    color: #333;
+    }
