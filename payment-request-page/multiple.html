@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>পেমেন্ট রিকুয়েস্ট সাবমিট</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --pending: #FFA500;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --success: #4CAF50;
+            --error: #F44336;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            height: 100%;
+            width: 100%;
+            max-width: 600px;
+            max-height: 640px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-header {
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            padding: 25px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        
+        .status-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .status-icon {
+            width: 70px;
+            height: 70px;
+            background-color: var(--pending);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .status-icon::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px dashed var(--pending);
+            animation: rotate 10s linear infinite;
+        }
+        
+        .status-icon i {
+            font-size: 30px;
+            color: white;
+        }
+        
+        .status-badge {
+            background-color: rgba(255, 165, 0, 0.2);
+            color: var(--pending);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        h1 {
+            color: var(--dark);
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .card-content {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+        
+        .transaction-container {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            flex-shrink: 0;
+        }
+        
+        .transaction-id {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            font-family: monospace;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+        
+        .copy-btn i {
+            font-size: 14px;
+        }
+        
+        .payment-details {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 10px;
+            text-align: left;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .detail-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .detail-value {
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .blur-amount {
+            filter: blur(5px);
+            transition: filter 0.3s;
+        }
+        
+        .blur-amount:hover {
+            filter: blur(0);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+            margin-top: 20px;
+            flex-shrink: 0;
+        }
+        
+        .btn {
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+        
+        .btn i {
+            margin-right: 6px;
+        }
+        
+        /* সুন্দর অ্যালার্ট স্টাইল */
+        .custom-alert {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            animation: slideDown 0.3s ease-out;
+            max-width: 90%;
+        }
+        
+        .alert-success {
+            border-left: 5px solid var(--success);
+        }
+        
+        .alert-error {
+            border-left: 5px solid var(--error);
+        }
+        
+        .alert-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        
+        .alert-success .alert-icon {
+            color: var(--success);
+        }
+        
+        .alert-error .alert-icon {
+            color: var(--error);
+        }
+        
+        .alert-message {
+            font-size: 15px;
+        }
+        
+        @keyframes slideDown {
+            from { top: -50px; opacity: 0; }
+            to { top: 20px; opacity: 1; }
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 576px) {
+            .card-header {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .btn {
+                padding: 12px;
+                font-size: 13px;
+            }
+            
+            .custom-alert {
+                padding: 12px 18px;
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <div class="status-container">
+                    <div class="status-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="status-badge">পেন্ডিং</div>
+                </div>
+                
+                <h1>পেমেন্ট রিকুয়েস্ট সাবমিট হয়েছে</h1>
+                <p class="subtitle">আপনার পেমেন্ট রিকুয়েস্ট সফলভাবে জমা হয়েছে। রিকুয়েস্টটি প্রসেসিং এর জন্য পেন্ডিং অবস্থায় রয়েছে।</p>
+            </div>
+            
+            <div class="card-content">
+                <div class="content-wrapper">
+                    <div>
+                        <div class="transaction-container">
+                            <span class="transaction-id" id="transactionId"><span id="randomId"></span></span>
+                            <button class="copy-btn" onclick="copyTransactionId()">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="payment-details">
+                            <div class="detail-item">
+                                <span class="detail-label">পরিমাণ:</span>
+                                <span class="detail-value blur-amount">৳ ৫,০০০.০০</span>
+                            </div>      
+        <div class="detail-item">
+                                <span class="detail-label">পেমেন্ট মেথড:</span>
+                                <span class="detail-value"> একাধিক(মাল্টিপল)</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">তারিখ ও সময়:</span>
+                                <span class="detail-value" id="paymentDate"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">স্ট্যাটাস:</span>
+                                <span class="detail-value" style="color: #FFA500;">পেন্ডিং</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-outline" onclick="downloadReceipt()">
+                            <i class="fas fa-download"></i> ডাউনলোড
+                        </button>
+                        <button class="btn btn-primary" onclick="redirectToDashboard()">
+<!--<i class="fas fa-home"></i>--> ধন্যবাদ 🎉
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // রেন্ডম ট্রানজেকশন আইডি জেনারেট করা
+        function generateRandomId() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ123456789';
+            let result = '';
+            for (let i = 0; i < 12; i++) {
+                if (i > 0 && i % 4 === 0) result += '-';
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+        
+        // বর্তমান তারিখ ও সময় ফরমেট করা
+        function getFormattedDate() {
+            const now = new Date();
+            const options = { 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            };
+            return now.toLocaleDateString('bn-BD', options);
+        }
+        
+        // কাস্টম অ্যালার্ট তৈরি
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `custom-alert alert-${type}`;
+            alertDiv.innerHTML = `
+                <div class="alert-icon">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                </div>
+                <div class="alert-message">${message}</div>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // 3 সেকেন্ড পর অ্যালার্ট অটো হাইড
+            setTimeout(() => {
+                alertDiv.style.animation = 'slideDown 0.3s ease-out reverse';
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 300);
+            }, 3000);
+        }
+        
+        // ট্রানজেকশন আইডি কপি করা
+        function copyTransactionId() {
+            const transactionId = document.getElementById('transactionId').textContent;
+            navigator.clipboard.writeText(transactionId).then(() => {
+                showAlert('ট্রানজেকশন আইডি কপি করা হয়েছে!', 'success');
+            }).catch(() => {
+                showAlert('কপি করতে সমস্যা হয়েছে!', 'error');
+            });
+        }
+        
+        // রিসিপ্ট ডাউনলোড
+        function downloadReceipt() {
+            showAlert('রিসিপ্ট ডাউনলোড শুরু হচ্ছে...', 'success');
+            
+            // এখানে ডাউনলোড লজিক যোগ করুন
+            // উদাহরণ:
+            setTimeout(() => {
+                // ডাউনলোড সিমুলেট করা
+                const link = document.createElement('a');
+                link.href = 'data:image/png;base64,...'; // এখানে বেস৬৪ ইমেজ ডাটা বা এক্সটার্নাল URL
+                link.download = 'payment-receipt.png';
+                link.click();
+                
+                showAlert('রিসিপ্ট সফলভাবে ডাউনলোড হয়েছে!', 'success');
+            }, 1500);
+        }
+        
+        // ড্যাশবোর্ডে রিডাইরেক্ট
+        function redirectToDashboard() {
+            showAlert('ড্যাশবোর্ডে নিয়ে যাওয়া হচ্ছে...', 'success');
+            setTimeout(() => {
+                window.location.href = "https://mymhgh.github.io/fbm-payment-002";
+            }, 1000);
+        }
+        
+        // পেজ লোড হলে সব তথ্য সেট করা
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('randomId').textContent = generateRandomId();
+            document.getElementById('paymentDate').textContent = getFormattedDate();
+            
+            // কন্টেইনার উচ্চতা সামঞ্জস্য করা
+            function adjustHeight() {
+                const container = document.querySelector('.container');
+                const windowHeight = window.innerHeight;
+                container.style.height = windowHeight + 'px';
+            }
+            
+            adjustHeight();
+            window.addEventListener('resize', adjustHeight);
+        });
+    </script>
+</body>
+</html>
