@@ -5,13 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> FBM Payment Request Form</title>
-    <link rel="stylesheet" href="payment.css">
+    <link rel="stylesheet" href="Payment.css">
+    <!-- নতুন স্টাইল যোগ করা হলো -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <!-- অন্যান্য ট্যাগের মধ্যে এই লাইন যোগ করুন -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body>
     <!-- Form Container Section -->
     <div class="form-container">
-        <h2>পেমেন্ট রিকোয়েস্ট ফর্ম</h2>
+        <h2> Withdraw </h2>
         
         <!-- Start of the payment form -->
         <form id="paymentForm">
@@ -21,7 +28,6 @@
                 <div class="field">
                     <label for="chatId">User ID:</label>
                     <input type="text" id="chatId" name="chatId" placeholder="Enter User ID" pattern="\d{9,11}" maxlength="11" required> 
-                    <!-- Added validation pattern for chat ID, length restriction to 10 digits -->
                 </div>
 
                 <!-- Account Type Dropdown -->
@@ -65,40 +71,31 @@
                 </div>
             </div>
 
-            <!-- Payment Method Section -->
-            <label for="paymentMethod">Payment Method:</label>
-            <select id="paymentMethod" name="paymentMethod" required>
-                <option value="" >---Select---</option>
-                <option value="Bkash">Bkash</option>
-                <option value="Nagad">Nagad</option>
-                <option value="Rocket">Rocket</option>
-                <option value="Binance">Binance</option>
-                <option disabled value="Payeer">Payeer</option>
-           <!--  <option value="Rocket">Rocket</option> -->
-            </select>
-
-            <!-- Payment Number Section -->
-            <label for="paymentNumber">Payment Number:</label>
-            <input type="text" id="paymentNumber" name="paymentNumber" placeholder="xxxxxxxxxxx" pattern="01[0-9]{9}" maxlength="12" required>
-            <!-- Added phone number validation pattern to match Bangladesh number format -->
+            <!-- আপডেটেড পেমেন্ট মেথড সেকশন -->
+            <div class="payment-method-container">
+                <label>Payment Methods:</label>
+                <div class="payment-input-group">
+                    <select id="paymentMethodSelect">
+                        <option value="">Select Method</option>
+                        <option value="Bkash">Bkash</option>
+                        <option value="Nagad">Nagad</option>
+                        <option value="Rocket">Rocket</option>
+                        <option value="Binance">Binance</option>
+                    </select>
+                    <input type="text" id="paymentNumberInput" placeholder="Enter number">
+                    <button type="button" id="addPaymentBtn"><i class="fa-solid fa-square-check"></i></button>
+                </div>
+                <div id="savedPayments" class="saved-payments">
+                    <!-- সেভ করা পেমেন্ট মেথডগুলো এখানে শো হবে -->
+                </div>
+                <input type="hidden" id="paymentData" name="paymentData">
+            </div>
             
             <!-- Submit Button -->
             <button type="submit" id="confirmButton">Confirm</button>
         </form>
     </div>
+<script src="paymet.js"></script>
 
-    <!-- Popup Message on Successful Submission -->
-    <div id="popup" class="popup">
-        <div class="popup-content">
-            <p>পেমেন্ট রিকুয়েস্ট সফলভাবে জমা হয়েছে!</p>
-            <!-- Popup message displayed after form submission -->
-            <button onclick="closePopup()">OK Thanks 🎉</button>
-            <!-- Button to close the popup -->
-        </div>
-    </div>
-
-    <!-- JavaScript to Handle Form Submission and Popup -->
-    <script src="payment.js"></script>
 </body>
-
 </html>
