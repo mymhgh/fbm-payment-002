@@ -3,7 +3,8 @@ const paymentMethods = {
     Bkash: { name: "Bkash", pattern: "^01[0-9]{9}$", placeholder: "01XXXXXXXXX", label: "Bkash Number" },
     Nagad: { name: "Nagad", pattern: "^01[0-9]{9,10}$", placeholder: "01XXXXXXXXX", label: "Nagad Number" },
     Rocket: { name: "Rocket", pattern: "^01[0-9]{9}$", placeholder: "01XXXXXXXXX", label: "Rocket Number" },
-    Binance: { name: "Binance", pattern: "^\\d{6,11}$", placeholder: "ID1042457700", label: "Binance ID" }
+    Binance: { name: "Binance", pattern: "^\\d{6,11}$", placeholder: "ID1042457700", label: "Binance ID" },
+    Payeer: { name: "Payeer", pattern: "P\\d{9,10}$", placeholder: "P1127766562", label: "Payeer ID" }
 };
 
 let savedPayments = [];
